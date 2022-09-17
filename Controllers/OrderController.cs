@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApplication3.Dto;
 using WebApplication3.Models;
 
@@ -27,14 +28,16 @@ public class OrderController : ControllerBase
     public IActionResult Store([FromBody] OrderDto dto)
     {
 
+        
         var cust = _db.Customers.Find(dto.CustomerId);
         var resMenu = _db.RestaurantMenus.Find(dto.RestaurantMenuId);
-        var res = _db.Orders.Add(new Order
+        // var res = _db.Orders.Add(cust).Entity;
+        var res = _db.Orders.Add(new Order()
         {
-            CustomerId = cust.Id,
-            RestaurantMenuId = resMenu.Id
-            
+            Customer = cust,
+            RestaurantMenu = resMenu
         }).Entity;
+        
         _db.SaveChanges();
 
         return Ok(res);
@@ -45,9 +48,14 @@ public class OrderController : ControllerBase
     public IActionResult Update(int Id , [FromBody] OrderDto dto)
     {
 
+        var cust = _db.Customers.Find(dto.CustomerId);
+        var resMenu = _db.RestaurantMenus.Find(dto.RestaurantMenuId);
+        
         var select = _db.Orders.Find(Id);
-        select.RestaurantMenuId = dto.RestaurantMenuId;
-        select.CustomerId = dto.CustomerId;
+        select.RestaurantMenuId = resMenu.Id;
+        select.CustomerId = cust.Id;
+        select.Customer = cust;
+        select.RestaurantMenu = resMenu;
         _db.SaveChanges();
         return Ok(select);
 

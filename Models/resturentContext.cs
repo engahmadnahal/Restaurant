@@ -58,10 +58,11 @@ namespace WebApplication3.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.HasNoKey();
 
                 entity.ToTable("Order");
-
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .ValueGeneratedNever();
                 entity.HasIndex(e => e.CustomerId, "id_idx");
 
                 entity.HasIndex(e => e.RestaurantMenuId, "restaurant_menu_id_idx");
