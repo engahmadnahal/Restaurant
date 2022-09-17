@@ -148,10 +148,10 @@ namespace WebApplication3.Models
                 entity.HasNoKey();
                 
             });
-
-            modelBuilder.Entity<Restaurant>().Ignore(e => (e.Archived == 1) || IgnorFilter);
-            modelBuilder.Entity<RestaurantMenu>().Ignore(e => (e.Archived == 1) || IgnorFilter);
-            modelBuilder.Entity<Customer>().Ignore(e => (e.Archived == 1) || IgnorFilter);
+            //
+            // modelBuilder.Entity<Restaurant>().Ignore(e => (e.Archived == 1) || IgnorFilter);
+            // modelBuilder.Entity<RestaurantMenu>().Ignore(e => (e.Archived == 1) || IgnorFilter);
+            // modelBuilder.Entity<Customer>().Ignore(e => (e.Archived == 1) || IgnorFilter);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "14mx0LL9HP5RA7qajmHOczHCjcKmdCxtUgxGSfj3jDMRiwtwGDiVLGyGQUq8XOMSN+Z1JHl3hDY2VaVRoBuw5w==",
+  "dgSpecHash": "QQPb0NfdTB0KN1qy6wkPWigMYMn5jRyQ6lc/uABXat/0+0P3eTsKRXC84kSNNVCDA8pUMSRHOBwE0hJNO/p+Jg==",
   "success": true,
   "projectFilePath": "/Users/ahmad/RiderProjects/WebApplication3/WebApplication3/WebApplication3.csproj",
   "expectedPackageFiles": [
     "/Users/ahmad/.nuget/packages/bouncycastle.netcore/1.8.3/bouncycastle.netcore.1.8.3.nupkg.sha512",
+    "/Users/ahmad/.nuget/packages/csvhelper/28.0.1/csvhelper.28.0.1.nupkg.sha512",
     "/Users/ahmad/.nuget/packages/google.protobuf/3.11.4/google.protobuf.3.11.4.nupkg.sha512",
     "/Users/ahmad/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/Users/ahmad/.nuget/packages/k4os.compression.lz4/1.1.11/k4os.compression.lz4.1.1.11.nupkg.sha512",
