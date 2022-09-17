@@ -27,6 +27,8 @@ public class MenuController : ControllerBase
     [HttpPost]
     public IActionResult Store([FromBody] RestaurantMenusDto dto)
     {
+
+        var resturant = _db.Restaurants.Find(dto.RestaurantId);
         var res = _db.RestaurantMenus.Add(new RestaurantMenu
         {
          MealName   = dto.MealName,
@@ -35,7 +37,8 @@ public class MenuController : ControllerBase
          Archived = dto.Archived,
          CreatedDate = DateTime.Now,
          UpdatedDate = DateTime.Now,
-         Quantity = dto.Quantity
+         Quantity = dto.Quantity,
+         Restaurant = resturant
             
         }).Entity;
         _db.SaveChanges();
@@ -48,12 +51,14 @@ public class MenuController : ControllerBase
     public IActionResult Update(int Id , [FromBody] RestaurantMenusDto dto)
     {
 
+        var resturant = _db.Restaurants.Find(dto.RestaurantId);
         var select = _db.RestaurantMenus.Find(Id);
         select.MealName = dto.MealName;
         select.PriceInNis = dto.PriceInNis;
         select.PriceInUsd = (dto.PriceInNis / 3.50f);
         select.Quantity = dto.Quantity;
         select.Archived = dto.Archived;
+        select.Restaurant = resturant;
         select.UpdatedDate = DateTime.Now;
         _db.SaveChanges();
         return Ok(select);

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using WebApplication3.Dto;
 
 namespace WebApplication3.Models
 {
     public partial class resturentContext : DbContext
     {
+
+        public bool IgnorFilter { get; set; }
+
         public resturentContext()
         {
         }
@@ -20,6 +24,9 @@ namespace WebApplication3.Models
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<RestaurantMenu> RestaurantMenus { get; set; }
+        
+        public virtual DbSet<RestViewTable> RestViewTables { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -124,7 +131,27 @@ namespace WebApplication3.Models
                 entity.Property(e => e.Quantity).HasColumnType("int(11)");
 
                 entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+                
+                entity.Property(e => e.RestaurantId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("restaurant_id");
+                
+                entity.HasOne(e => e.Restaurant)
+                    .WithMany()
+                    .HasForeignKey(d => d.RestaurantId)
+                    .HasConstraintName("restaurant_id");
             });
+            
+            modelBuilder.Entity<RestViewTable>(entity =>
+            {
+                entity.ToView("CSVResturant");
+                entity.HasNoKey();
+                
+            });
+
+            modelBuilder.Entity<Restaurant>().Ignore(e => (e.Archived == 1) || IgnorFilter);
+            modelBuilder.Entity<RestaurantMenu>().Ignore(e => (e.Archived == 1) || IgnorFilter);
+            modelBuilder.Entity<Customer>().Ignore(e => (e.Archived == 1) || IgnorFilter);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -29,18 +29,24 @@ public class OrderController : ControllerBase
     {
 
         
-        var cust = _db.Customers.Find(dto.CustomerId);
-        var resMenu = _db.RestaurantMenus.Find(dto.RestaurantMenuId);
-        // var res = _db.Orders.Add(cust).Entity;
-        var res = _db.Orders.Add(new Order()
-        {
-            Customer = cust,
-            RestaurantMenu = resMenu
-        }).Entity;
-        
-        _db.SaveChanges();
 
-        return Ok(res);
+        var resMenu = _db.RestaurantMenus.Find(dto.RestaurantMenuId);
+        
+        if (isAvailable(resMenu))
+        {
+            var cust = _db.Customers.Find(dto.CustomerId);
+            var res = _db.Orders.Add(new Order()
+            {
+                Customer = cust,
+                RestaurantMenu = resMenu
+            }).Entity;
+            
+            _db.SaveChanges();
+
+            return Ok(res);
+        }
+        
+        return BadRequest("Quantity is not available");
 
     }
     
@@ -48,17 +54,22 @@ public class OrderController : ControllerBase
     public IActionResult Update(int Id , [FromBody] OrderDto dto)
     {
 
-        var cust = _db.Customers.Find(dto.CustomerId);
         var resMenu = _db.RestaurantMenus.Find(dto.RestaurantMenuId);
         
-        var select = _db.Orders.Find(Id);
-        select.RestaurantMenuId = resMenu.Id;
-        select.CustomerId = cust.Id;
-        select.Customer = cust;
-        select.RestaurantMenu = resMenu;
-        _db.SaveChanges();
-        return Ok(select);
-
+        if (isAvailable(resMenu))
+        {
+            var cust = _db.Customers.Find(dto.CustomerId);
+            
+        
+            var select = _db.Orders.Find(Id);
+            select.RestaurantMenuId = resMenu.Id;
+            select.CustomerId = cust.Id;
+            select.Customer = cust;
+            select.RestaurantMenu = resMenu;
+            _db.SaveChanges();
+            return Ok(select);
+        }
+        return BadRequest("Quantity is not available");
     }
     
     [HttpGet]
@@ -78,5 +89,18 @@ public class OrderController : ControllerBase
         _db.SaveChanges();
         return Ok(select);
 
+    }
+
+    public static bool isAvailable(RestaurantMenu res)
+    {
+        return res.Quantity > 0;
+    }
+
+
+    [HttpGet]
+    public IActionResult test()
+    {
+        var s = _db.RestViewTables.First();
+        return Ok(s);
     }
 }

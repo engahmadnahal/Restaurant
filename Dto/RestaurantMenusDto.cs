@@ -8,4 +8,6 @@ public class RestaurantMenusDto
     public float? PriceInNis { get; set; }
     public int? Quantity { get; set; }
     public sbyte? Archived { get; set; }
+    public int RestaurantId { get; set; }
+
 }

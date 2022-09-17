@@ -13,5 +13,7 @@ namespace WebApplication3.Models
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public sbyte? Archived { get; set; }
+        public int RestaurantId { get; set; }
+        public Restaurant Restaurant { get; set; }
     }
 }
