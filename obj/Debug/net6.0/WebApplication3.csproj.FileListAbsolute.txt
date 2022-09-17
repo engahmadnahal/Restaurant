@@ -58,3 +58,4 @@
 /Users/ahmad/RiderProjects/WebApplication3/WebApplication3/bin/Debug/net6.0/System.Xml.XPath.XmlDocument.dll
 /Users/ahmad/RiderProjects/WebApplication3/WebApplication3/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Relational.Design.dll
 /Users/ahmad/RiderProjects/WebApplication3/WebApplication3/bin/Debug/net6.0/Pomelo.EntityFrameworkCore.MySql.Design.dll
+/Users/ahmad/RiderProjects/WebApplication3/WebApplication3/bin/Debug/net6.0/CsvHelper.dll

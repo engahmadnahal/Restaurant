@@ -1,3 +1,5 @@
+using System.Globalization;
+using CsvHelper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Dto;
@@ -98,9 +100,19 @@ public class OrderController : ControllerBase
 
 
     [HttpGet]
-    public IActionResult test()
+    public IActionResult Csv()
     {
-        var s = _db.RestViewTables.First();
-        return Ok(s);
+        var data = _db.RestViewTables.ToList();
+
+        using (var writer = new StreamWriter("\\Users\\ahmad\\Desktop\\data.csv"))
+        using (var csv = new CsvWriter(writer,CultureInfo.InvariantCulture))
+        {
+            foreach (var d in data)
+            {
+                csv.WriteRecord(d);
+            }
+        }
+       
+        return Ok("Success");
     }
 }
