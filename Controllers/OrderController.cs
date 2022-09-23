@@ -61,8 +61,6 @@ public class OrderController : ControllerBase
         if (isAvailable(resMenu))
         {
             var cust = _db.Customers.Find(dto.CustomerId);
-            
-        
             var select = _db.Orders.Find(Id);
             select.RestaurantMenuId = resMenu.Id;
             select.CustomerId = cust.Id;

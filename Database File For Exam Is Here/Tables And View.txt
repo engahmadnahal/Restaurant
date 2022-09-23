@@ -1,0 +1,59 @@
+CREATE TABLE `Customer` (
+  `Id` int(11) NOT NULL,
+  `firstName` varchar(45) DEFAULT NULL,
+  `LastName` varchar(45) DEFAULT NULL,
+  `CreatedDate` datetime DEFAULT NULL,
+  `UpdatedDate` datetime DEFAULT NULL,
+  `Archived` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Order` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_id` int(11) DEFAULT NULL,
+  `restaurant_menu_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `menu_id_idx` (`restaurant_menu_id`),
+  KEY `customer_id_idx` (`customer_id`),
+  CONSTRAINT `customer_id` FOREIGN KEY (`customer_id`) REFERENCES `Customer` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `menu_id` FOREIGN KEY (`restaurant_menu_id`) REFERENCES `RestaurantMenu` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `Restaurant` (
+  `Id` int(11) NOT NULL,
+  `Name` varchar(45) DEFAULT NULL,
+  `PhoneNumber` varchar(45) DEFAULT NULL,
+  `CreatedDate` datetime DEFAULT NULL,
+  `UpdatedDate` datetime DEFAULT NULL,
+  `Archived` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `RestaurantMenu` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `MealName` varchar(45) DEFAULT NULL,
+  `PriceInNis` float DEFAULT NULL,
+  `PriceInUsd` float DEFAULT NULL,
+  `Quantity` int(11) DEFAULT NULL,
+  `CreatedDate` datetime DEFAULT NULL,
+  `UpdatedDate` datetime DEFAULT NULL,
+  `Archived` tinyint(4) DEFAULT NULL,
+  `restaurant_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Id`),
+  KEY `RestaurantId_idx` (`restaurant_id`),
+  CONSTRAINT `RestaurantId` FOREIGN KEY (`restaurant_id`) REFERENCES `Restaurant` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+
+//--------- View
+
+
+View !!
+الفيو ليش الورك برانش هيك اظهارها مش عارف 
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` 
+SQL SECURITY 
+DEFINER VIEW `resturent`.`csvresturant` AS select `R`.`Name` AS `RestaurantName`,count(`O`.`restaurant_menu_id`) AS `NumberOfOrderedCustomer`,`M`.`PriceInNis` AS `ProfitInNis`,`M`.`PriceInUsd` AS `ProfitInUsd`,`M`.`MealName` AS `TheBestSellingMeal`,`C`.`firstName` AS `MostPurchasedCustomer` from (((`resturent`.`restaurantmenu` `M` join `resturent`.`restaurant` `R`) join `resturent`.`order` `O`) join `resturent`.`customer` `C`) where ((`R`.`Id` = `M`.`Id`) and (`M`.`Id` = `O`.`restaurant_menu_id`) and (`C`.`Id` = `O`.`customer_id`)) group by `M`.`MealName`,`R`.`Name`,`M`.`PriceInNis`,`M`.`PriceInUsd`,`C`.`firstName`;
+
